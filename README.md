@@ -1,9 +1,8 @@
 # Calculadora de KPIs
 
-Ferramenta em Python para calcular KPIs de performance de campanhas de marketing digital. Aceita entrada manual, importação de CSV e exibe os resultados via terminal ou interface web (Streamlit).
+Ferramenta em Python para calcular KPIs de campanhas de marketing digital.
 
 **Métricas:** CTR, CPC, CPA, ROAS e CVR.
-## KPIs calculados
 
 | KPI | Fórmula |
 |-----|---------|
@@ -17,46 +16,38 @@ Ferramenta em Python para calcular KPIs de performance de campanhas de marketing
 
 ```
 Calculadora_KPIS/
-├── app.py               # interface web (Streamlit)
-├── main.py              # menu interativo (terminal)
-├── kpis/
-│   ├── modelos.py       # dataclasses Campanha e ResultadoKPI
-│   ├── calculos.py      # funções de cálculo e formatação
-│   └── csv_loader.py    # leitura de CSV
-├── dados/
-│   └── exemplo.csv      # campanhas de exemplo
+├── app.py          # interface web
+├── main.py         # interface terminal
+├── kpis/           # calculos, modelos e leitura de csv
+├── dados/          # csv de exemplo
 ├── tests/
-└── requirements.txt
+├── web.bat         # atalho para abrir a web
+└── rodar.bat       # atalho para o terminal
+```
+
+`app.py` e `main.py` são só a interface. A lógica fica em `kpis/`.
+
+## Instalação
+
+```bash
+python -m pip install -r requirements.txt
 ```
 
 ## Como rodar
 
-Interface web:
+**Web** (recomendado) — abre em `http://localhost:8501`:
 
 ```bash
-web
+web.bat
 ```
 
-Ou dê dois cliques em `web.bat`.
-
-Terminal:
+**Terminal** — menu interativo no console:
 
 ```bash
-rodar
+rodar.bat
 ```
 
-Ou dê dois cliques em `rodar.bat`.
-
-Se preferir o comando completo:
-
-```bash
-python -m streamlit run app.py
-python main.py
-```
-
-Abre no navegador em `http://localhost:8501`.
-
-## Formato do CSV
+## CSV
 
 Colunas obrigatórias: `nome`, `gasto`, `impressoes`, `cliques`, `conversoes`  
 Coluna opcional: `receita`
@@ -66,9 +57,16 @@ nome,gasto,impressoes,cliques,conversoes,receita
 Minha Campanha,1000,50000,1200,30,4500
 ```
 
+No terminal, opção `2` pede o caminho do arquivo. Na web, use a aba **Arquivo CSV**.
+
+## Testes
+
+```bash
+python -m unittest discover -s tests -v
+```
+
 ## Próximos passos
 
 - [x] Interface web com Streamlit
 - [ ] Comparar campanhas e destacar melhores/piores KPIs
 - [ ] Relatórios automáticos (PDF/Excel)
-

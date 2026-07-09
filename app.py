@@ -1,8 +1,15 @@
 import streamlit as st
 
-from kpis import Campanha, calcular_kpis
+from kpis.calculos import (
+    calcular_kpis,
+    comparar_campanhas,
+    explicar_kpis,
+    formatar_moeda,
+    formatar_percentual,
+    formatar_roas,
+)
 from kpis.csv_loader import carregar_csv_texto
-
+from kpis.modelos import Campanha
 # configuracao da pagina
 st.set_page_config(page_title="Calculadora de KPIs", layout="centered")
 
@@ -19,14 +26,18 @@ def mostrar_kpis(campanha: Campanha) -> None:
     st.subheader(campanha.nome)
     col1, col2, col3 = st.columns(3)
 
-    col1.metric("CTR", f"{kpis.ctr:.2f}%")
-    col2.metric("CPC", f"R$ {kpis.cpc:.2f}")
-    col3.metric("CPA", f"R$ {kpis.cpa:.2f}")
+    col1.metric("CTR", formatar_percentual(kpis.ctr))
+    col2.metric("CPC", formatar_moeda(kpis.cpc))
+    col3.metric("CPA", formatar_moeda(kpis.cpa))
 
     col4, col5, col6 = st.columns(3)
-    col4.metric("ROAS", f"{kpis.roas:.2f}x")
-    col5.metric("CVR", f"{kpis.cvr:.2f}%")
-    col6.metric("Gasto", f"R$ {campanha.gasto:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
+    col4.metric("ROAS", formatar_roas(kpis.roas))
+    col5.metric("CVR", formatar_percentual(kpis.cvr))
+    col6.metric("Gasto", formatar_moeda(campanha.gasto))
+
+    with st.expander("Ver contas"):
+        for linha in explicar_kpis(campanha, kpis):
+            st.write(linha)
 
 
 # aba para digitar os dados da campanha
@@ -61,9 +72,16 @@ with aba_csv:
 
     if arquivo is not None:
         try:
-            texto = arquivo.read().decode("utf-8-sig")
+            texto = arquivo.getvalue().decode("utf-8-sig")
             campanhas = carregar_csv_texto(texto)
             st.success(f"{len(campanhas)} campanha(s) carregada(s).")
+
+            comparacao = comparar_campanhas(campanhas)
+            if comparacao:
+                st.subheader("Comparação entre campanhas")
+                for linha in comparacao:
+                    st.write(linha)
+                st.divider()
 
             for campanha in campanhas:
                 mostrar_kpis(campanha)

@@ -3,3 +3,8 @@ gatherUsageStats = false
 
 [server]
 headless = true
+runOnSave = true
+fileWatcherType = "poll"
+
+[runner]
+fastReruns = true

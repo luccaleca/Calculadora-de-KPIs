@@ -1,7 +1,8 @@
 from pathlib import Path
 
-from kpis import Campanha, calcular_kpis, formatar_relatorio
+from kpis.calculos import calcular_kpis, comparar_campanhas, formatar_relatorio
 from kpis.csv_loader import carregar_csv
+from kpis.modelos import Campanha
 
 # caminhos usados pelo programa
 PASTA_PROJETO = Path(__file__).parent
@@ -68,6 +69,11 @@ def exibir_menu() -> None:
     print("0. Sair")
 
 
+# mostra relatorio de uma campanha no terminal
+def exibir_campanha(campanha: Campanha) -> None:
+    print(formatar_relatorio(campanha, calcular_kpis(campanha)))
+
+
 # loop principal do terminal
 def main() -> None:
     while True:
@@ -75,9 +81,7 @@ def main() -> None:
         opcao = input("\nEscolha uma opção: ").strip()
 
         if opcao == "1":
-            campanha = campanha_manual()
-            kpis = calcular_kpis(campanha)
-            print(formatar_relatorio(campanha, kpis))
+            exibir_campanha(campanha_manual())
 
         elif opcao == "2":
             caminho_input = input(
@@ -98,9 +102,14 @@ def main() -> None:
             print(f"\nArquivo: {caminho}")
             print(f"{len(campanhas)} campanha(s) carregada(s).")
 
+            comparacao = comparar_campanhas(campanhas)
+            if comparacao:
+                print("\nComparação entre campanhas:")
+                for linha in comparacao:
+                    print(f"  {linha}")
+
             for campanha in campanhas:
-                kpis = calcular_kpis(campanha)
-                print(formatar_relatorio(campanha, kpis))
+                exibir_campanha(campanha)
 
         elif opcao == "0":
             print("\nAté logo!")
