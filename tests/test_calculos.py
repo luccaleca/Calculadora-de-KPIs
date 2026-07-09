@@ -3,6 +3,7 @@ import unittest
 from kpis import Campanha, calcular_kpis
 
 
+# testes das formulas de kpi
 class TestCalcularKpis(unittest.TestCase):
     def test_black_friday(self):
         campanha = Campanha(

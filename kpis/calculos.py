@@ -1,12 +1,14 @@
 from .modelos import Campanha, ResultadoKPI
 
 
+# divisao segura (retorna 0 se denominador for 0)
 def _dividir(numerador: float, denominador: float) -> float:
     if denominador == 0:
         return 0.0
     return numerador / denominador
 
 
+# calcula ctr, cpc, cpa, roas e cvr
 def calcular_kpis(campanha: Campanha) -> ResultadoKPI:
     return ResultadoKPI(
         ctr=_dividir(campanha.cliques, campanha.impressoes) * 100,
@@ -17,6 +19,7 @@ def calcular_kpis(campanha: Campanha) -> ResultadoKPI:
     )
 
 
+# formata moeda, percentual e roas para o terminal
 def formatar_moeda(valor: float) -> str:
     return f"R$ {valor:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
@@ -29,6 +32,7 @@ def formatar_roas(valor: float) -> str:
     return f"{valor:.2f}x".replace(".", ",")
 
 
+# monta o relatorio completo da campanha
 def formatar_relatorio(campanha: Campanha, kpis: ResultadoKPI) -> str:
     linhas = [
         "",

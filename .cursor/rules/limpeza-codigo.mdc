@@ -1,0 +1,35 @@
+---
+description: Remove codigo desnecessario ao editar o projeto
+alwaysApply: true
+---
+
+# Limpeza de codigo
+
+Ao criar, editar ou revisar arquivos do projeto, identifique e remova codigo que nao esta sendo usado.
+
+## O que remover
+
+- imports que nao sao usados
+- funcoes, classes ou variaveis que ninguem chama
+- codigo comentado que ficou no arquivo
+- arquivos inteiros que perderam a funcao (ex: script antigo substituido por outro)
+- duplicacao: mesma logica em dois lugares quando da pra centralizar em um modulo
+- dependencias no `requirements.txt` que o projeto nao usa
+
+## Como agir
+
+1. Antes de adicionar codigo novo, verifique se algo existente ja resolve
+2. Ao refatorar, apague o trecho antigo — nao deixe versao morta comentada
+3. Se remover algo, confira se testes e imports ainda fazem sentido
+4. Rode os testes depois de limpar
+
+## O que nao remover
+
+- codigo usado pelo terminal, web ou testes
+- comentarios de secao que explicam o projeto
+- dados de exemplo em `dados/`
+- configuracoes ativas (`.streamlit/`, `.gitignore`, `.bat`)
+
+## Regra de ouro
+
+Menos codigo = mais facil de entender. Se nao serve pra nada agora e nao tem proximo passo claro no README, remove.

@@ -1,0 +1,35 @@
+---
+description: Regras para projetos de dados e growth — simples e para aprender
+alwaysApply: true
+---
+
+# Projetos de dados
+
+## Como trabalhar
+
+1. **Um problema por vez.** Cada projeto resolve uma coisa só. Calculadora calcula. Importador importa. Não misturar.
+
+2. **Arquitetura mínima.** Pastas só quando fizer sentido: `dados/`, módulo com a lógica, `main.py` pra rodar. Sem camadas extras (service, repository, factory) até precisar de verdade.
+
+3. **Código em inglês, README em português.** Variáveis e funções: `calcular_ctr`, `Campanha`. Documentação: explica o problema e como rodar.
+
+4. **Comentários por seção.** Um comentário curto em português acima de cada bloco principal (função, classe, etapa do menu). Não comentar linha por linha.
+
+5. **Commits como humano.** Curtos, em português, no imperativo: `adiciona leitura de csv`, `corrige divisão por zero no roas`. Um commit = uma mudança. Nada de mensagens longas ou listas com emojis.
+
+6. **README obrigatório.** Título, o que faz, como rodar (3 comandos no máximo), exemplo de entrada/saída. Sem texto genérico tipo "projeto desenvolvido para aprender".
+
+7. **Dados de exemplo inclusos.** O projeto roda sem configurar nada. CSV fictício em `dados/`. Nunca subir dados reais ou credenciais.
+
+8. **Testar o que importa.** Funções de cálculo e transformação de dados ganham testes. Interface e menu não precisam no começo.
+
+9. **Evoluir em etapas.** CLI → ler CSV → gráfico ou tabela → conectar API. Terminar uma etapa antes de pular pra próxima.
+
+10. **Foco em dados de marketing.** CTR, ROAS, CPA, conversões, campanhas. Cada projeto deve mostrar que você entende métricas, não só Python.
+
+## O que evitar
+
+- Over-engineering: classes, abstrações e padrões que você ainda não precisa
+- Dependências desnecessárias: se `csv` resolve, não instalar pandas
+- Código gerado em bloco gigante: preferir funções pequenas adicionadas aos poucos
+- Mencionar ferramentas de IA, agentes ou automação no código, commits ou README

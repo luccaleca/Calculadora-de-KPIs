@@ -7,6 +7,7 @@ PASTA_PROJETO = Path(__file__).parent.parent
 ARQUIVO_EXEMPLO = PASTA_PROJETO / "dados" / "exemplo.csv"
 
 
+# testes da leitura de csv
 class TestCarregarCsv(unittest.TestCase):
     def test_exemplo_csv(self):
         campanhas = carregar_csv(ARQUIVO_EXEMPLO)

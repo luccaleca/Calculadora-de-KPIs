@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 
 
+# dados de entrada de uma campanha
 @dataclass
 class Campanha:
     nome: str
@@ -11,6 +12,7 @@ class Campanha:
     receita: float = 0.0
 
 
+# resultado dos calculos de kpi
 @dataclass
 class ResultadoKPI:
     ctr: float

@@ -3,10 +3,12 @@ from pathlib import Path
 from kpis import Campanha, calcular_kpis, formatar_relatorio
 from kpis.csv_loader import carregar_csv
 
+# caminhos usados pelo programa
 PASTA_PROJETO = Path(__file__).parent
 ARQUIVO_EXEMPLO = PASTA_PROJETO / "dados" / "exemplo.csv"
 
 
+# leitura de numeros no terminal
 def ler_float(mensagem: str) -> float:
     while True:
         try:
@@ -23,6 +25,7 @@ def ler_int(mensagem: str) -> int:
             print("Valor inválido. Digite um número inteiro.")
 
 
+# cadastro manual de uma campanha
 def campanha_manual() -> Campanha:
     print("\n--- Nova campanha ---")
     nome = input("Nome da campanha: ").strip() or "Sem nome"
@@ -42,6 +45,7 @@ def campanha_manual() -> Campanha:
     )
 
 
+# encontra o arquivo csv no disco
 def resolver_caminho(caminho_input: str) -> Path:
     caminho = Path(caminho_input.strip().strip('"'))
     if caminho.exists():
@@ -54,6 +58,7 @@ def resolver_caminho(caminho_input: str) -> Path:
     return caminho
 
 
+# opcoes do menu
 def exibir_menu() -> None:
     print("=" * 40)
     print("  Calculadora de KPIs — Marketing")
@@ -63,6 +68,7 @@ def exibir_menu() -> None:
     print("0. Sair")
 
 
+# loop principal do terminal
 def main() -> None:
     while True:
         exibir_menu()

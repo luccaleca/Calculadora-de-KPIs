@@ -3,6 +3,7 @@ import streamlit as st
 from kpis import Campanha, calcular_kpis
 from kpis.csv_loader import carregar_csv_texto
 
+# configuracao da pagina
 st.set_page_config(page_title="Calculadora de KPIs", layout="centered")
 
 st.title("Calculadora de KPIs")
@@ -11,6 +12,7 @@ st.caption("Métricas de campanhas de marketing")
 aba_manual, aba_csv = st.tabs(["Uma campanha", "Arquivo CSV"])
 
 
+# exibe os kpis na tela
 def mostrar_kpis(campanha: Campanha) -> None:
     kpis = calcular_kpis(campanha)
 
@@ -27,6 +29,7 @@ def mostrar_kpis(campanha: Campanha) -> None:
     col6.metric("Gasto", f"R$ {campanha.gasto:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
 
 
+# aba para digitar os dados da campanha
 with aba_manual:
     nome = st.text_input("Nome da campanha", "Minha campanha")
 
@@ -52,6 +55,7 @@ with aba_manual:
         mostrar_kpis(campanha)
 
 
+# aba para enviar arquivo csv
 with aba_csv:
     arquivo = st.file_uploader("Envie um CSV", type=["csv"])
 

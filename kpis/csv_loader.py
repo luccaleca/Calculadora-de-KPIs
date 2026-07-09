@@ -7,6 +7,7 @@ from .modelos import Campanha
 COLUNAS_CSV = ("nome", "gasto", "impressoes", "cliques", "conversoes")
 
 
+# padroniza nomes das colunas do csv
 def _normalizar_linha(linha: dict[str, str]) -> dict[str, str]:
     return {
         chave.strip().lower(): valor.strip()
@@ -15,6 +16,7 @@ def _normalizar_linha(linha: dict[str, str]) -> dict[str, str]:
     }
 
 
+# le csv em texto e retorna lista de campanhas
 def carregar_csv_texto(texto: str) -> list[Campanha]:
     texto = texto.strip()
     if not texto:
@@ -62,6 +64,7 @@ def carregar_csv_texto(texto: str) -> list[Campanha]:
     return campanhas
 
 
+# le csv de um arquivo no disco
 def carregar_csv(caminho: Path) -> list[Campanha]:
     if not caminho.exists():
         raise FileNotFoundError(f"Arquivo não encontrado: {caminho}")
