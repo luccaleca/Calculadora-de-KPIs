@@ -2,7 +2,7 @@ import unittest
 from pathlib import Path
 
 from kpis import Campanha, calcular_kpis, comparar_campanhas, formatar_moeda
-from kpis.calculos import explicar_kpis
+from kpis.calculos import explicar_kpis, montar_tabela_comparacao, montar_tabela_dados
 from kpis.csv_loader import carregar_csv
 
 PASTA_PROJETO = Path(__file__).parent.parent
@@ -85,6 +85,27 @@ class TestCompararCampanhas(unittest.TestCase):
     def test_uma_campanha(self):
         campanha = Campanha("Só uma", 100, 1000, 50, 5)
         self.assertEqual(comparar_campanhas([campanha]), [])
+        self.assertEqual(montar_tabela_comparacao([campanha]), [])
+
+
+class TestTabelasCampanhas(unittest.TestCase):
+    def test_dados_carregados(self):
+        campanhas = carregar_csv(ARQUIVO_EXEMPLO)
+        tabela = montar_tabela_dados(campanhas)
+
+        self.assertEqual(len(tabela), 4)
+        self.assertEqual(tabela[0]["Campanha"], "Black Friday 2025")
+        self.assertEqual(tabela[0]["Impressões"], 100000)
+
+    def test_comparacao(self):
+        campanhas = carregar_csv(ARQUIVO_EXEMPLO)
+        tabela = montar_tabela_comparacao(campanhas)
+
+        self.assertEqual(len(tabela), 4)
+        self.assertAlmostEqual(
+            next(linha["ROAS"] for linha in tabela if linha["Campanha"] == "Remarketing Carrinho"),
+            4.5,
+        )
 
 
 if __name__ == "__main__":

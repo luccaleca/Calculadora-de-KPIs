@@ -107,6 +107,39 @@ def explicar_kpis(campanha: Campanha, kpis: ResultadoKPI) -> list[str]:
     return linhas
 
 
+# monta linhas com os dados brutos de cada campanha
+def montar_tabela_dados(campanhas: list[Campanha]) -> list[dict[str, str | float | int]]:
+    return [
+        {
+            "Campanha": campanha.nome,
+            "Gasto": campanha.gasto,
+            "Impressões": campanha.impressoes,
+            "Cliques": campanha.cliques,
+            "Conversões": campanha.conversoes,
+            "Receita": campanha.receita,
+        }
+        for campanha in campanhas
+    ]
+
+
+# monta linhas com os kpis de cada campanha para comparacao
+def montar_tabela_comparacao(campanhas: list[Campanha]) -> list[dict[str, str | float]]:
+    if len(campanhas) < 2:
+        return []
+
+    return [
+        {
+            "Campanha": campanha.nome,
+            "CTR": kpis.ctr,
+            "CPC": kpis.cpc,
+            "CPA": kpis.cpa,
+            "ROAS": kpis.roas,
+            "CVR": kpis.cvr,
+        }
+        for campanha, kpis in ((c, calcular_kpis(c)) for c in campanhas)
+    ]
+
+
 # compara campanhas e destaca melhores kpis
 def comparar_campanhas(campanhas: list[Campanha]) -> list[str]:
     if len(campanhas) < 2:

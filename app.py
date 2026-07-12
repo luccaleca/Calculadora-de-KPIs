@@ -2,11 +2,12 @@ import streamlit as st
 
 from kpis.calculos import (
     calcular_kpis,
-    comparar_campanhas,
     explicar_kpis,
     formatar_moeda,
     formatar_percentual,
     formatar_roas,
+    montar_tabela_comparacao,
+    montar_tabela_dados,
 )
 from kpis.csv_loader import carregar_csv_texto
 from kpis.modelos import Campanha
@@ -17,6 +18,24 @@ st.title("Calculadora de KPIs")
 st.caption("Métricas de campanhas de marketing")
 
 aba_manual, aba_csv = st.tabs(["Uma campanha", "Arquivo CSV"])
+
+_CONFIG_DADOS = {
+    "Campanha": st.column_config.TextColumn("Campanha"),
+    "Gasto": st.column_config.NumberColumn("Gasto (R$)", format="%.2f"),
+    "Impressões": st.column_config.NumberColumn("Impressões", format="%d"),
+    "Cliques": st.column_config.NumberColumn("Cliques", format="%d"),
+    "Conversões": st.column_config.NumberColumn("Conversões", format="%d"),
+    "Receita": st.column_config.NumberColumn("Receita (R$)", format="%.2f"),
+}
+
+_CONFIG_COMPARACAO = {
+    "Campanha": st.column_config.TextColumn("Campanha"),
+    "CTR": st.column_config.NumberColumn("CTR (%)", format="%.2f"),
+    "CPC": st.column_config.NumberColumn("CPC (R$)", format="%.2f"),
+    "CPA": st.column_config.NumberColumn("CPA (R$)", format="%.2f"),
+    "ROAS": st.column_config.NumberColumn("ROAS (x)", format="%.2f"),
+    "CVR": st.column_config.NumberColumn("CVR (%)", format="%.2f"),
+}
 
 
 # exibe os kpis na tela
@@ -76,12 +95,26 @@ with aba_csv:
             campanhas = carregar_csv_texto(texto)
             st.success(f"{len(campanhas)} campanha(s) carregada(s).")
 
-            comparacao = comparar_campanhas(campanhas)
+            st.subheader("Dados carregados")
+            st.dataframe(
+                montar_tabela_dados(campanhas),
+                column_config=_CONFIG_DADOS,
+                hide_index=True,
+                use_container_width=True,
+            )
+
+            comparacao = montar_tabela_comparacao(campanhas)
             if comparacao:
                 st.subheader("Comparação entre campanhas")
-                for linha in comparacao:
-                    st.write(linha)
-                st.divider()
+                st.dataframe(
+                    comparacao,
+                    column_config=_CONFIG_COMPARACAO,
+                    hide_index=True,
+                    use_container_width=True,
+                )
+
+            st.divider()
+            st.subheader("KPIs por campanha")
 
             for campanha in campanhas:
                 mostrar_kpis(campanha)
