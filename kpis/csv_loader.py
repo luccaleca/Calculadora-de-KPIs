@@ -6,6 +6,11 @@ from .modelos import Campanha
 
 COLUNAS_CSV = ("nome", "gasto", "impressoes", "cliques", "conversoes")
 
+EXEMPLO_CSV = (
+    "nome,gasto,impressoes,cliques,conversoes,receita\n"
+    "Minha Campanha,1000,50000,1200,30,4500"
+)
+
 
 # padroniza nomes das colunas do csv
 def _normalizar_linha(linha: dict[str, str]) -> dict[str, str]:
@@ -35,7 +40,7 @@ def carregar_csv_texto(texto: str) -> list[Campanha]:
         raise ValueError(
             "Colunas faltando: "
             + ", ".join(faltando)
-            + ". Esperado: nome, gasto, impressoes, cliques, conversoes, receita"
+            + ". Esperado: nome, gasto, impressoes, cliques, conversoes (receita opcional)"
         )
 
     campanhas: list[Campanha] = []

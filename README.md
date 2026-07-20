@@ -68,5 +68,5 @@ python -m unittest discover -s tests -v
 ## Próximos passos
 
 - [x] Interface web com Streamlit
-- [ ] Comparar campanhas e destacar melhores/piores KPIs
+- [x] Comparar campanhas e destacar melhores/piores KPIs
 - [ ] Relatórios automáticos (PDF/Excel)

@@ -140,6 +140,19 @@ def montar_tabela_comparacao(campanhas: list[Campanha]) -> list[dict[str, str | 
     ]
 
 
+# formata tabela de comparacao para o terminal
+def formatar_tabela_comparacao(campanhas: list[Campanha]) -> list[str]:
+    tabela = montar_tabela_comparacao(campanhas)
+    return [
+        (
+            f"{linha['Campanha']}: CTR {formatar_percentual(linha['CTR'])}, "
+            f"CPC {formatar_moeda(linha['CPC'])}, CPA {formatar_moeda(linha['CPA'])}, "
+            f"ROAS {formatar_roas(linha['ROAS'])}, CVR {formatar_percentual(linha['CVR'])}"
+        )
+        for linha in tabela
+    ]
+
+
 # compara campanhas e destaca melhores kpis
 def comparar_campanhas(campanhas: list[Campanha]) -> list[str]:
     if len(campanhas) < 2:

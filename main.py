@@ -1,8 +1,14 @@
 from pathlib import Path
 
-from kpis.calculos import calcular_kpis, comparar_campanhas, formatar_relatorio
-from kpis.csv_loader import carregar_csv
-from kpis.modelos import Campanha
+from kpis import (
+    EXEMPLO_CSV,
+    Campanha,
+    calcular_kpis,
+    carregar_csv,
+    comparar_campanhas,
+    formatar_relatorio,
+    formatar_tabela_comparacao,
+)
 
 # caminhos usados pelo programa
 PASTA_PROJETO = Path(__file__).parent
@@ -84,6 +90,11 @@ def main() -> None:
             exibir_campanha(campanha_manual())
 
         elif opcao == "2":
+            print("\nEnvie um CSV com suas campanhas para calcular os KPIs.")
+            print("Exemplo de formato:")
+            for linha in EXEMPLO_CSV.splitlines():
+                print(linha)
+            print("\nA coluna receita é opcional. Separe por vírgula (,) ou ponto-e-vírgula (;).")
             caminho_input = input(
                 "\nCaminho do CSV [Enter = dados/exemplo.csv]: "
             ).strip()
@@ -102,11 +113,17 @@ def main() -> None:
             print(f"\nArquivo: {caminho}")
             print(f"{len(campanhas)} campanha(s) carregada(s).")
 
-            comparacao = comparar_campanhas(campanhas)
-            if comparacao:
+            tabela = formatar_tabela_comparacao(campanhas)
+            if tabela:
                 print("\nComparação entre campanhas:")
-                for linha in comparacao:
+                for linha in tabela:
                     print(f"  {linha}")
+
+                destaques = comparar_campanhas(campanhas)
+                if destaques:
+                    print("\nDestaques:")
+                    for linha in destaques:
+                        print(f"  {linha}")
 
             for campanha in campanhas:
                 exibir_campanha(campanha)

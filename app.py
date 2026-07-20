@@ -1,7 +1,11 @@
 import streamlit as st
 
-from kpis.calculos import (
+from kpis import (
+    EXEMPLO_CSV,
+    Campanha,
     calcular_kpis,
+    carregar_csv_texto,
+    comparar_campanhas,
     explicar_kpis,
     formatar_moeda,
     formatar_percentual,
@@ -9,8 +13,7 @@ from kpis.calculos import (
     montar_tabela_comparacao,
     montar_tabela_dados,
 )
-from kpis.csv_loader import carregar_csv_texto
-from kpis.modelos import Campanha
+
 # configuracao da pagina
 st.set_page_config(page_title="Calculadora de KPIs", layout="centered")
 
@@ -88,6 +91,8 @@ with aba_manual:
 # aba para enviar arquivo csv
 with aba_csv:
     arquivo = st.file_uploader("Envie um CSV", type=["csv"])
+    st.caption("A coluna receita é opcional. Separe por vírgula (,) ou ponto-e-vírgula (;).")
+    st.code(EXEMPLO_CSV, language="text")
 
     if arquivo is not None:
         try:
@@ -112,6 +117,12 @@ with aba_csv:
                     hide_index=True,
                     use_container_width=True,
                 )
+
+                destaques = comparar_campanhas(campanhas)
+                if destaques:
+                    st.caption("Destaques")
+                    for linha in destaques:
+                        st.write(f"• {linha}")
 
             st.divider()
             st.subheader("KPIs por campanha")
